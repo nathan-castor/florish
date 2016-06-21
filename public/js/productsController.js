@@ -13,10 +13,30 @@ function ProductsController (productsFactory, $modal, $window, $state){
 	vm.api.list()
 		.success(function(res){
 			vm.products = res
-			console.log('vm.products',vm.products)
+			//console.log('vm.products',vm.products)
 		})
-	vm.step = 0
-	vm.filterArray = []
+
+	// *************** stuff to set upon SHOP view ***************
+	if ($window.localStorage.step == 'results') {
+		vm.step = 4
+		vm.filtered = JSON.parse($window.localStorage.filtered)
+		console.log('vm.filtered',vm.filtered)
+		//vm.cart = $window.localStorage.basket
+		vm.showBack = true
+		vm.showReset = true
+	}else{
+		vm.step = 0
+		$window.localStorage.filtered = []
+		$window.localStorage.basket = []
+		$window.localStorage.filterArray =[]
+		vm.filtered = []
+		vm.filterArray = []
+		vm.cart = [];
+	}
+	console.log('step:',vm.step)
+	console.log('vm.filtered:',vm.filtered)
+
+	// *************** END stuff to set upon SHOP view ***************
 
 	vm.addProduct = function(avatar_url, name, size, lightNeed, type, price, description){
 		var data = {avatar_url:avatar_url, name:name, size:size, lightNeed: lightNeed, type:type, price:price, description:description}
@@ -34,23 +54,22 @@ function ProductsController (productsFactory, $modal, $window, $state){
 	}
 
 	//vm.filtered = vm.products;
-	vm.filtered = []
 
-	vm.filterProducts = function(prop, value) {
-				//console.log("prop is", prop)
-				//console.log("value is", value)
-					if(!prop || !value) {
-							vm.filtered = vm.products;
-							return;
-					}
+	// vm.filterProducts = function(prop, value) {
+	// 			//console.log("prop is", prop)
+	// 			//console.log("value is", value)
+	// 				if(!prop || !value) {
+	// 						vm.filtered = vm.products;
+	// 						return;
+	// 				}
 
-			vm.filtered = vm.products.filter(function(item) {
-				//console.log('item', item)
-				//console.log('item[prop]', item[prop])
-					return item[prop] === value;
-			});
+	// 		vm.filtered = vm.products.filter(function(item) {
+	// 			//console.log('item', item)
+	// 			//console.log('item[prop]', item[prop])
+	// 				return item[prop] === value;
+	// 		});
 
-	};
+	// };
 	vm.findByFilters = function(array) {
 		console.log('vm.filterArray',vm.filterArray)
 
@@ -73,8 +92,8 @@ function ProductsController (productsFactory, $modal, $window, $state){
 				}
 			}
 		}
-		console.log('vm.filtered',vm.filtered)
-		//vm.finalStep()
+		console.log('vm.filtered from findByFilters',vm.filtered)
+		$window.localStorage.filtered = JSON.stringify(vm.filtered)
 	}
 
 		vm.showSize = true
@@ -82,10 +101,9 @@ function ProductsController (productsFactory, $modal, $window, $state){
 		vm.showLight = false
 		vm.showWords = true
 		vm.showBack = false
+		vm.showReset = false
 
 		vm.nextStep = function(back) {
-			//console.log('vm.filtered',vm.filtered)
-
 			if (back) {
 				vm.step--
 				if (vm.step == 3) {
@@ -109,20 +127,28 @@ function ProductsController (productsFactory, $modal, $window, $state){
 				vm.showLight = false
 				vm.showWords = true
 				vm.showBack = false
+				vm.showReset = false
 			}else if (vm.step == 1) {
 				vm.showSize = false
 				vm.showWater = true
 				vm.showWords = false
 				vm.showLight = false
 				vm.showBack = true
+				vm.showReset = true
 			}else if (vm.step == 2) {
 				vm.showWater = false
 				vm.showLight = true
 				vm.showBack = true
+				vm.showReset = true
 			}else if (vm.step == 3) {
 				vm.showLight = false
 				vm.showBack = true
+				vm.showReset = true
+				$window.localStorage.filterArray = vm.filterArray
 				vm.findByFilters(vm.filterArray)
+			}else{
+				$window.localStorage.step = 'results'
+				console.log('$window.localStorage.filterArray',$window.localStorage.filterArray)
 			}
 		}
 		vm.back = function() {
@@ -137,6 +163,7 @@ function ProductsController (productsFactory, $modal, $window, $state){
 			vm.showLight = false
 			vm.showWords = true
 			vm.showBack = false
+			vm.showReset = false
 			vm.filterArray = []
 			vm.filtered = []
 		}
@@ -195,7 +222,7 @@ function ProductsController (productsFactory, $modal, $window, $state){
 		}
 		//vm.done = false
 		vm.finalStep = function() {
-			if (vm.step === 3){return true}
+			if (vm.step == 3 || vm.step == 4){return true}
 			return false
 			//vm.done = true
 		}
@@ -225,10 +252,6 @@ function ProductsController (productsFactory, $modal, $window, $state){
 		// }
 
 
-
-
-
-	vm.cart = [];
 	vm.addToCart = function (product) {
 		console.log('product:****',product)
 		$window.localStorage.currentProductId = product._id
@@ -241,7 +264,7 @@ function ProductsController (productsFactory, $modal, $window, $state){
 			}
 		});
 		if (!found) {
-			vm.cart.push(angular.extend({quantity: 1}, product));
+			vm.cart.push(angular.extend({quantity: 1}, product))
 		}
 	};
 

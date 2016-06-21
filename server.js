@@ -50,7 +50,7 @@ var cronJob = cron.job("0 * * * * *", function(){
 
     console.log('cron job completed');
 }); 
-cronJob.start();
+//cronJob.start();
 
 mongoose.connect(mongoUri)
 
