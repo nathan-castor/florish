@@ -21,6 +21,8 @@ function ProductsController (productsFactory, $modal, $window, $state){
 		vm.step = 4
 		vm.filtered = JSON.parse($window.localStorage.filtered)
 		console.log('vm.filtered',vm.filtered)
+		console.log('$window.localStorage.basket',$window.localStorage.basket)
+		vm.cart = JSON.parse($window.localStorage.basket)
 		//vm.cart = $window.localStorage.basket
 		vm.showBack = true
 		vm.showReset = true
@@ -253,7 +255,7 @@ function ProductsController (productsFactory, $modal, $window, $state){
 
 
 	vm.addToCart = function (product) {
-		console.log('product:****',product)
+		console.log('product added to cart!:',product)
 		$window.localStorage.currentProductId = product._id
 		$window.localStorage.currentProductUrl = product.avatar_url
 		var found = false;
@@ -266,6 +268,7 @@ function ProductsController (productsFactory, $modal, $window, $state){
 		if (!found) {
 			vm.cart.push(angular.extend({quantity: 1}, product))
 		}
+		$window.localStorage.basket = JSON.stringify(vm.cart)
 	};
 
 	vm.product = $window.localStorage.currentProductId

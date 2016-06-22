@@ -59,7 +59,7 @@
 		Checkout Complete!
 	</alert>
 
-	<div class="clearfix">
+	<div class="clearfix" ng-controller="ProductsController as productsCtrl">
 		<div class="right">
 			<button class="cancel" ng-click="$dismiss();">Cancel</button>
 			<button type="submit" ng-disabled="checkoutForm.$invalid">Place Order</button>

@@ -78,7 +78,7 @@
 	        <img class= "img-responsive" id="plantPic" ng-src="{{product.avatar_url}}"/>
 					<figcaption>
 						<h3>	{{ product.name}} - {{product.price | currency}}</h3>
-						<button ui-sref="pot({_id: product._id})"ng-click="productsCtrl.addToCart(product); productsCtrl.nextStep()">Pick a Pot!</button>
+						<button ui-sref="pot({_id: product._id})"ng-click="productsCtrl.addToCart(product); productsCtrl.nextStep()">Add to cart!</button>
 					</figcaption>
 				</figure>
 			</li>
@@ -95,7 +95,7 @@
 </div>
 
 
-<div ng-if="productsCtrl.cart.length" class="shopping-cart">
+<div ng-show="productsCtrl.finalStep()" ng-if="productsCtrl.cart.length" class="shopping-cart">
 	<h2>{{productsCtrl.cart.length}} items in cart, ${{productsCtrl.getCartPrice()}}</h2>
 
 	<span class="cart-item th radius" ng-repeat="product in productsCtrl.cart">
@@ -106,5 +106,14 @@
 		</span>
 	</span>
 
+<!-- 	<div class="row">
 	<button ng-click="productsCtrl.checkout();">Checkout</button>
+	</div>
+	<div class="row">
+	<button ng-click="productsCtrl.reset();">Clear</button>
+	</div> -->
+
+	<button ng-click="productsCtrl.checkout();">Checkout</button>
+	<button ng-click="productsCtrl.reset();">Clear</button>
+
 </div>
