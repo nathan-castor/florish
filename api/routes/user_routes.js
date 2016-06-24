@@ -27,7 +27,8 @@ apiRouter.route('/authenticate')
 //products CRUD
 apiRouter.route('/products')
 	.get(productsController.getAllProducts)
-
+apiRouter.route('/pots')
+	.get(productsController.getAllPots)
 
 apiRouter.route('/payments')
 

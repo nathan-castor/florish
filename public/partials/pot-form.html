@@ -1,0 +1,52 @@
+<div class="panel panel-default">
+	<div class="panel-heading"><h2 class="panel-title">Add A New Pot</h2></div>
+	<div class="panel-body">
+		<form id="new-product-form" ng-submit="productsCtrl.addPot(productsCtrl.newPot.avatar_url, productsCtrl.newPot.name, productsCtrl.newPot.size, productsCtrl.newPot.type, productsCtrl.newPot.price, productsCtrl.newPot.description )">
+					<div class="form-group">
+							<input type="file" id="file_input" ng-model="productsCtrl.newPot.avatar_url" ng-click="productsCtrl.sthree()" class="form-control"/>
+				  		<p id="status">Please select a file</p>
+					</div>
+
+					<div class="form-group">
+				  	<img class="img-responsive"  id="preview" src="" />
+						<input type="hidden" id="avatar_url" name="avatar_url" ng-model="productsCtrl.newPot.avatar_url" class="form-control">
+					</div>
+
+					<div class="form-group">
+				    	<input type="text" name="name" ng-model="productsCtrl.newPot.name" placeholder="Name" class="form-control">
+				  </div>
+					<p id="status">Please Select A Size</p>
+					<div class="radio">
+						  <label><input type="radio" name="size" value="S" ng-model="productsCtrl.newPot.size">Small</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" name="size" value="M" ng-model="productsCtrl.newPot.size">Medium</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" name="size" value="L" ng-model="productsCtrl.newPot.size">Large</label>
+						</div>
+
+							<p>What Type of Plant Is It??</p>
+							<div class="radio">
+								  <label><input type="radio" name="type" value="potted" ng-model="productsCtrl.newPot.type">Potted Plant</label>
+							</div>
+							<div class="radio">
+								  <label><input type="radio" name="type" value="hanging" ng-model="productsCtrl.newPot.type">Hanging Plant</label>
+							</div>
+							<p>Price</p>
+					<div class="form-group">
+				    	<input type="number" name="price" ng-model="productsCtrl.newPot.price" placeholder="Price" class="form-control">
+				  </div>
+
+					<div class="form-group">
+				    	<input type="text-area" name="description" ng-model="productsCtrl.newPot.description" placeholder="Description" class="form-control">
+				  </div>
+
+
+					<div class="text-center">
+					<button type="submit" class="btn btn-info btn-block">Add Product</button>
+					</div>
+
+		</form>
+	</div>
+</div>

@@ -46,10 +46,28 @@ function deleteProduct(req,res){
 	})
 }
 
-function pots(req,res) {
-	console.log('pots backend')
+function getAllPots(req,res){
+	Pot.find({}, function(err, pots){
+		res.json(pots)
+	})
 }
 
+function createPot(req,res){
+	var newPot = new Pot
+	newPot.avatar_url = req.body.avatar_url
+	newPot.name = req.body.name
+	newPot.size = req.body.size
+	newPot.type = req.body.type
+	newPot.lightNeed = req.body.lightNeed
+	newPot.description = req.body.description
+	newPot.price = req.body.price
+
+	newPot.save(function(err, pot){
+		if(err) throw err
+		console.log(pot)
+		res.json({message: "Pot Saved!", pot: pot})
+	})
+}
 
 module.exports = {
 	getAllProducts : getAllProducts,
@@ -57,6 +75,7 @@ module.exports = {
 	getOneProduct : getOneProduct,
 	updateProduct : updateProduct,
 	deleteProduct : deleteProduct,
-	pots: pots
+	getAllPots : getAllPots,
+	createPot : createPot
 
 }

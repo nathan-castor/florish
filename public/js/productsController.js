@@ -3,11 +3,12 @@ angular
 	.controller('ProductsController', ProductsController)
 
 
-ProductsController.$inject = ['productsFactory', '$modal', '$window', '$state']
+ProductsController.$inject = ['productsFactory','potsFactory', '$modal', '$window', '$state']
 
-function ProductsController (productsFactory, $modal, $window, $state){
+function ProductsController (productsFactory, potsFactory, $modal, $window, $state){
 	var vm = this;
 	vm.api = productsFactory
+	vm.potsapi = potsFactory
 	vm.products = []
 	vm.newProduct = {}
 	vm.api.list()
@@ -55,23 +56,21 @@ function ProductsController (productsFactory, $modal, $window, $state){
 			})
 	}
 
-	//vm.filtered = vm.products;
+	vm.addPot = function(avatar_url, name, type, price, description){
+		var data = {avatar_url:avatar_url, name:name, size:size, lightNeed: lightNeed, type:type, price:price, description:description}
+		console.log(data)
 
-	// vm.filterProducts = function(prop, value) {
-	// 			//console.log("prop is", prop)
-	// 			//console.log("value is", value)
-	// 				if(!prop || !value) {
-	// 						vm.filtered = vm.products;
-	// 						return;
-	// 				}
+		vm.potsapi.addPot(data)
+			.then(function success(res){
+				console.log(data)
+				vm.pots.push(res.data.pot)
+				vm.newPot = {}
 
-	// 		vm.filtered = vm.products.filter(function(item) {
-	// 			//console.log('item', item)
-	// 			//console.log('item[prop]', item[prop])
-	// 				return item[prop] === value;
-	// 		});
+				console.log(res.data.pot.avatar_url)
+				alert("pot created")
+			})
+	}
 
-	// };
 	vm.findByFilters = function(array) {
 		console.log('vm.filterArray',vm.filterArray)
 
